@@ -26,9 +26,10 @@ class PaleoClient:
         transport = Transport(session=session, timeout=60)
         settings = Settings(strict=False, xml_huge_tree=True)
         self._client = Client(config.wsdl_url, transport=transport, settings=settings)
+        self._service = self._resolve_service()
 
     def list_documents(self) -> Iterable[DocumentReference]:
-        method = getattr(self._client.service, self._config.list_method)
+        method = getattr(self._service, self._config.list_method)
         response = method(
             codiceAOO=self._config.org_code,
             fascicoloId=self._config.fascicolo_id,
@@ -36,12 +37,24 @@ class PaleoClient:
         return self._extract_documents(response)
 
     def download_document(self, document: DocumentReference) -> bytes:
-        method = getattr(self._client.service, self._config.download_method)
+        method = getattr(self._service, self._config.download_method)
         response = method(
             codiceAOO=self._config.org_code,
             documentoId=document.document_id,
         )
         return self._extract_file_content(response)
+
+    def _resolve_service(self):
+        if self._config.service_name and self._config.port_name:
+            return self._client.bind(self._config.service_name, self._config.port_name)
+
+        try:
+            return self._client.service
+        except ValueError as exc:
+            raise ValueError(
+                "Il WSDL non definisce un servizio di default. "
+                "Imposta PALEO_SERVICE_NAME e PALEO_PORT_NAME per il binding."
+            ) from exc
 
     @staticmethod
     def _extract_documents(response: object) -> Iterable[DocumentReference]:

@@ -30,6 +30,8 @@ Variabili principali:
 - `PALEO_OUTPUT_DIR`: cartella di destinazione dei file.
 - `PALEO_LIST_METHOD`: nome del metodo SOAP che restituisce i documenti del fascicolo.
 - `PALEO_DOWNLOAD_METHOD`: nome del metodo SOAP che restituisce il contenuto del documento.
+- `PALEO_SERVICE_NAME`: nome del servizio WSDL (necessario se il WSDL non definisce un default).
+- `PALEO_PORT_NAME`: nome della porta WSDL (necessario se il WSDL non definisce un default).
 
 > Nota: i nomi dei metodi possono variare in base alla configurazione del servizio; consultare la documentazione del WS.
 

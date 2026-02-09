@@ -18,6 +18,8 @@ class PaleoConfig:
     output_dir: Path
     list_method: str
     download_method: str
+    service_name: Optional[str]
+    port_name: Optional[str]
 
 
 DEFAULT_ENV_FILE = ".env"
@@ -41,4 +43,6 @@ def load_config(env_file: Optional[str] = None) -> PaleoConfig:
         output_dir=Path(os.getenv("PALEO_OUTPUT_DIR", "downloads")),
         list_method=os.getenv("PALEO_LIST_METHOD", "CercaDocumentiFascicolo"),
         download_method=os.getenv("PALEO_DOWNLOAD_METHOD", "ScaricaDocumento"),
+        service_name=os.getenv("PALEO_SERVICE_NAME"),
+        port_name=os.getenv("PALEO_PORT_NAME"),
     )
