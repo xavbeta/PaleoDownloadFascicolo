@@ -23,17 +23,20 @@ cp .env.example .env
 
 Variabili principali:
 
-- `PALEO_WSDL_URL`: URL del WSDL (es. endpoint Paleo WS Versione 5 AGID).
+- `PALEO_WSDL_URL`: URL del WSDL. Per default usa
+  `https://paleows.regione.marche.it/PaleoWebServices2020R_Marche/PaleoWebService2.svc?singleWsdl`.
 - `PALEO_USERNAME` / `PALEO_PASSWORD`: credenziali.
 - `PALEO_ORG_CODE`: codice dell'ente/organizzazione.
 - `PALEO_FASCICOLO_ID`: identificativo del fascicolo da scaricare.
 - `PALEO_OUTPUT_DIR`: cartella di destinazione dei file.
-- `PALEO_LIST_METHOD`: nome del metodo SOAP che restituisce i documenti del fascicolo.
-- `PALEO_DOWNLOAD_METHOD`: nome del metodo SOAP che restituisce il contenuto del documento.
+- `PALEO_LIST_METHOD`: nome del metodo SOAP che restituisce i documenti del fascicolo (opzionale).
+- `PALEO_DOWNLOAD_METHOD`: nome del metodo SOAP che restituisce il contenuto del documento (opzionale).
 - `PALEO_SERVICE_NAME`: nome del servizio WSDL (necessario se il WSDL non definisce un default).
 - `PALEO_PORT_NAME`: nome della porta WSDL (necessario se il WSDL non definisce un default).
 
 > Nota: i nomi dei metodi possono variare in base alla configurazione del servizio; consultare la documentazione del WS.
+  Se non specificati, il client cerca automaticamente un metodo compatibile nel WSDL.
+  Durante l'invocazione, il client prova anche ad associare automaticamente eventuali campi username/password richiesti dal metodo.
 
 ## Uso
 
