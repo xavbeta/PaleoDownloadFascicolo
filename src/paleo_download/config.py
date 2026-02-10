@@ -16,13 +16,17 @@ class PaleoConfig:
     org_code: str
     fascicolo_id: str
     output_dir: Path
-    list_method: str
-    download_method: str
+    list_method: Optional[str]
+    download_method: Optional[str]
     service_name: Optional[str]
     port_name: Optional[str]
 
 
 DEFAULT_ENV_FILE = ".env"
+DEFAULT_WSDL_URL = (
+    "https://paleows.regione.marche.it/"
+    "PaleoWebServices2020R_Marche/PaleoWebService2.svc?singleWsdl"
+)
 
 
 def load_config(env_file: Optional[str] = None) -> PaleoConfig:
@@ -35,14 +39,14 @@ def load_config(env_file: Optional[str] = None) -> PaleoConfig:
         return value
 
     return PaleoConfig(
-        wsdl_url=require("PALEO_WSDL_URL"),
+        wsdl_url=os.getenv("PALEO_WSDL_URL", DEFAULT_WSDL_URL),
         username=require("PALEO_USERNAME"),
         password=require("PALEO_PASSWORD"),
         org_code=require("PALEO_ORG_CODE"),
         fascicolo_id=require("PALEO_FASCICOLO_ID"),
         output_dir=Path(os.getenv("PALEO_OUTPUT_DIR", "downloads")),
-        list_method=os.getenv("PALEO_LIST_METHOD", "CercaDocumentiFascicolo"),
-        download_method=os.getenv("PALEO_DOWNLOAD_METHOD", "ScaricaDocumento"),
+        list_method=os.getenv("PALEO_LIST_METHOD"),
+        download_method=os.getenv("PALEO_DOWNLOAD_METHOD"),
         service_name=os.getenv("PALEO_SERVICE_NAME"),
         port_name=os.getenv("PALEO_PORT_NAME"),
     )
